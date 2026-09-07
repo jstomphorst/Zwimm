@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env
+*.env
+__pycache__/
+*.pyc
+.build/
+goose.md
+goose.md.lock
+Dockerfile
+run.sh
+simple_test.py
+install_swift.sh
+.agents/
+specs/
+export.md
+README.md

@@ -1,0 +1,37 @@
+# Secrets — never commit
+.env
+*.env.local
+.env.*.local
+GITHUB_TOKEN
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Swift / SPM
+.build/
+.swiftpm/
+.swiftpm.xcworkspace/
+*.xcodeproj
+xcuserdata/
+DerivedData/
+spm-debug.yaml
+
+# macOS cruft
+.DS_Store
+
+# Goose runtime log (keep the file, ignore its lock)
+goose.md.lock
+
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
