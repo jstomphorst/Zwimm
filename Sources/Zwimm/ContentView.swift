@@ -32,11 +32,11 @@ public struct ContentView: View {
                     Slider(value: $viewModel.searchRadiusKm, in: 5...50, step: 5)
                 }
                 .padding()
-                // Use a compatible fallback color for older macOS versions
                 .background(Color.gray.opacity(0.1))
                 .shadow(radius: 1)
 
                 // Sessions List
+                #if os(iOS)
                 List {
                     Section(header: Text("Beschikbare Zwemsessies (\(viewModel.filteredSessions.count))")) {
                         if viewModel.filteredSessions.isEmpty {
@@ -62,7 +62,15 @@ public struct ContentView: View {
                                         .foregroundColor(.secondary)
                                     
                                     HStack {
+                                        #if os(macOS)
+                                        if #available(macOS 11.0, *) {
+                                            Image(systemName: "clock")
+                                        } else {
+                                            Image(systemName: "circle.fill")
+                                        }
+                                        #else
                                         Image(systemName: "clock")
+                                        #endif
                                         Text("\(item.slot.startTime) - \(item.slot.endTime)")
                                             .bold()
                                         Spacer()
@@ -83,11 +91,63 @@ public struct ContentView: View {
                             }
                         }
                     }
+                }#elseif os(macOS)
+                // Fallback for macOS <11.0
+                VStack(alignment: .leading, spacing: 12) {
+                    if viewModel.filteredSessions.isEmpty {
+                        Text("Geen zwemsessies gevonden binnen \(Int(viewModel.searchRadiusKm)) km voor deze activiteit.")
+                            .foregroundColor(.secondary)
+                            .italic()
+                            .padding(.vertical, 8)
+                    } else {
+                        ForEach(viewModel.filteredSessions, id: \.slot.id) { item in
+                            VStack(alignment: .leading, spacing: 6) {
+                                HStack {
+                                    Text(item.pool.name)
+                                        .font(.headline)
+                                    Spacer()
+                                    Text(String(format: "%.1f km", item.distanceKm))
+                                        .font(.subheadline)
+                                        .bold()
+                                        .foregroundColor(.blue)
+                                }
+                                
+                                Text(item.pool.address)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                HStack {
+                                    Text("⏰ ") // Fallback for clock icon
+                                    Text("\(item.slot.startTime) - \(item.slot.endTime)")
+                                        .bold()
+                                    Spacer()
+                                    Text(item.slot.date)
+                                        .foregroundColor(.secondary)
+                                }
+                                .font(.subheadline)
+                                .padding(.top, 2)
+                                
+                                if let notes = item.slot.notes, !notes.isEmpty {
+                                    Text("💡 \(notes)")
+                                        .font(.caption)
+                                        .foregroundColor(.orange)
+                                        .padding(.top, 2)
+                                }
+                            }
+                            .padding(.vertical, 6)
+                        }
+                    }
                 }
-                .listStyle(InsetGroupedListStyle())
+                #endif
             }
+            #if os(macOS)
+            .padding()
+            #endif
             .navigationTitle("🏊‍♂️ Zwimm")
         }
+        #if os(macOS)
+        .frame(minWidth: 600, maxWidth: .infinity, minHeight: 400)
+        #endif
     }
 }
 #endif
