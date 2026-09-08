@@ -5,9 +5,12 @@ import SwiftUI
 
 @available(macOS 10.15, iOS 13.0, *)
 public struct ContentView: View {
-    @StateObject private var viewModel = SwimViewModel()
+    // For older macOS/iOS versions, use @ObservedObject instead of @StateObject
+    @ObservedObject private var viewModel: SwimViewModel
 
-    public init() {}
+    public init(viewModel: SwimViewModel = SwimViewModel()) {
+        self.viewModel = viewModel
+    }
 
     public var body: some View {
         NavigationView {
@@ -30,7 +33,8 @@ public struct ContentView: View {
                     Slider(value: $viewModel.searchRadiusKm, in: 5...50, step: 5)
                 }
                 .padding()
-                .background(Color(.systemBackground))
+                // Use a neutral background color for compatibility
+                .background(Color(.systemGray6))
                 .shadow(radius: 1)
 
                 // Sessions List
