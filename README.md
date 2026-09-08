@@ -17,3 +17,7 @@ Swift iOS app for finding swimming sessions across multiple pools.
 # Or run tests directly
 python3 ./agent_runner.py
 ```
+
+## CI/CD
+
+The project uses GitHub Actions with a macOS runner to build and test on every push/PR.
