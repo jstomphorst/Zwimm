@@ -21,3 +21,5 @@ python3 ./agent_runner.py
 ## CI/CD
 
 The project uses GitHub Actions with a macOS runner to build and test on every push/PR.
+
+![CI Status](https://github.com/jstomphorst/Zwimm/workflows/Swift%20macOS%20CI/badge.svg)
