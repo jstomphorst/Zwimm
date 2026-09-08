@@ -4,6 +4,7 @@ import Foundation
 import SwiftUI
 import Combine
 
+@available(macOS 10.15, iOS 13.0, *)
 @MainActor
 public class SwimViewModel: ObservableObject {
     @Published public var manager: SwimManager

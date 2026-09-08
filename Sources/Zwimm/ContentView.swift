@@ -3,7 +3,7 @@ import Foundation
 #if canImport(SwiftUI)
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, *)
+@available(macOS 10.15, iOS 13.0, *)
 public struct ContentView: View {
     @StateObject private var viewModel = SwimViewModel()
 
