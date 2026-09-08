@@ -66,7 +66,7 @@ public struct ContentView: View {
                                         if #available(macOS 11.0, *) {
                                             Image(systemName: "clock")
                                         } else {
-                                            Image(systemName: "circle.fill")
+                                            Text("⏰")
                                         }
                                         #else
                                         Image(systemName: "clock")
@@ -117,7 +117,15 @@ public struct ContentView: View {
                                     .foregroundColor(.secondary)
                                 
                                 HStack {
-                                    Text("⏰ ") // Fallback for clock icon
+                                    #if os(macOS)
+                                    if #available(macOS 11.0, *) {
+                                        Image(systemName: "clock")
+                                    } else {
+                                        Text("⏰")
+                                    }
+                                    #else
+                                    Image(systemName: "clock")
+                                    #endif
                                     Text("\(item.slot.startTime) - \(item.slot.endTime)")
                                         .bold()
                                     Spacer()
@@ -142,8 +150,12 @@ public struct ContentView: View {
             }
             #if os(macOS)
             .padding()
+            #else
+            // Conditionally apply navigationTitle only on iOS or macOS 11.0+
+            if #available(macOS 11.0, iOS 13.0, *) {
+                .navigationTitle("🏊‍♂️ Zwimm")
+            }
             #endif
-            .navigationTitle("🏊‍♂️ Zwimm")
         }
         #if os(macOS)
         .frame(minWidth: 600, maxWidth: .infinity, minHeight: 400)
